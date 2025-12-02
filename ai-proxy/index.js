@@ -50,16 +50,7 @@ app.use(async (req, res) => {
         });
 
         try {
-            const stream = await openai.chat.completions.create({
-                model,
-                messages: req.body.messages,
-                stream: req.body.stream !== undefined ? req.body.stream : true,
-                temperature: req.body.temperature,
-                max_tokens: req.body.max_tokens,
-                top_p: req.body.top_p,
-                //  # 开启思考模式，请勿设置response_format参数为{"type": "json_object"}，否则会报错
-                stream_options: req.body.stream_options || { include_usage: true },
-            });
+            const stream = await openai.chat.completions.create(req.body);
 
             // 设置SSE响应头
             res.setHeader("Content-Type", "text/event-stream");
