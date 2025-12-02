@@ -57,6 +57,7 @@ app.use(async (req, res) => {
                 temperature: req.body.temperature,
                 max_tokens: req.body.max_tokens,
                 top_p: req.body.top_p,
+                //  # 开启思考模式，请勿设置response_format参数为{"type": "json_object"}，否则会报错
                 stream_options: req.body.stream_options || { include_usage: true },
             });
 
@@ -84,8 +85,7 @@ app.use(async (req, res) => {
             res.end();
 
         } catch (err) {
-            console.error("DashScope请求失败:", err);
-            res.status(500).json({ error: "DashScope request failed", message: err.message });
+            res.status(500).json({ error: `DashScope request failed: ${err.message}` });
         }
     } else {
         // openRouter
